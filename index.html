@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image to Text Converter</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+      body {
+        font-family:Arial, sans-serif;
+        background-image: url("static/background.png");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;  
+        margin:0;
+        padding: 0;
+      }
+  
+      .container {
+        max-width: 800px;
+        margin: 100px auto;
+        padding: 30px;
+        background-color: rgba(140, 102, 230, 0.8); 
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgb(255, 255, 255);
+        display: flex; 
+        flex-direction: column; 
+        align-items: center;
+      }
+      .form-group, .result {
+        width: 100%; 
+      }
+  
+      h1 {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+  
+      .form-group {
+        margin-bottom: 20px;
+      }
+  
+      .btn-primary {
+        background-color: #337ab7;
+        border-color: #337ab7;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+  
+      .result {
+        margin-top: 40px;
+        width: 50%;
+      }
+  
+      textarea {
+        width: 100%;
+        resize: none;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-family: inherit;
+      }
+  
+      .img-fluid {
+        width: 100%;
+        height: auto; 
+        object-fit: cover;
+        border-radius: 5px;
+        margin-bottom: 20px; 
+      }
+    </style>
+</head>
+<body>
+    <div class="container animate__animated animate__fadeIn">
+        <h1>Image to Text Converter</h1>
+        <form method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="image-upload">Upload Image:</label>
+                <input type="file" id="image-upload" name="image" accept="image/*" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Upload Image</button>
+        </form>
+
+        {% if extracted_text %}
+        <div class="result">
+            <h2>Extracted Text:</h2>
+            <textarea rows="10" cols="50" readonly>{{ extracted_text }}</textarea>
+
+            <h3>Uploaded Image:</h3>
+            <img src="{{ url_for('static', filename='uploads/' + image_file) }}" alt="Uploaded Image" class="img-fluid">
+        </div>
+        {% endif %}
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Add animation to form elements
+            $('input, button').addClass('animate__animated animate__fadeInUp');
+
+            // Add animation to result section
+            $('.result').addClass('animate__animated animate__fadeInDown');
+        });
+    </script>
+</body>
+</html>
